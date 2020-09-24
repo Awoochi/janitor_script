@@ -1,4 +1,3 @@
-# Issue #7111
 
 require 'roo'
 require 'fileutils'
@@ -13,18 +12,14 @@ def find_files(doc)
 
   i = 0
   while i < old_name.length do
-    old_name_code = old_name[i].match(/(\S+)(\d{2})/) # парсим клетки со старыми именами
+    old_name_code = old_name[i].match(/(\S+)(\d{2})/) # parse cells with old filenames
     old_filename = old_name_code[1]
     old_name_code = old_name_code[2]
 
     cur_file = Dir["#{Dir.pwd}/**/#{old_filename}#{old_name_code[0]}#{old_name_code[1]}*"] # return current file
-    #puts "CURRENT FILE: #{cur_file}"
-    #puts "OLD NAME: #{old_name_code}"
-    new_name_code = new_name[i].match(/(\S+)(\d{2})/) # парсим клетки с новыми именами
+    new_name_code = new_name[i].match(/(\S+)(\d{2})/) # parse cells with new filenames
     new_name_code = new_name_code[2]
-    #puts "NEW NAME: #{new_name_code}"
     new_path = "#{Dir.pwd}/#{new_name_code[0]}/#{new_name_code[1]}/" # New filepath
-    #puts "NEW PATH: #{new_path}"
 
     current_files.push(cur_file)
     new_codes.push(new_name_code)
@@ -39,13 +34,10 @@ end
 def move_files(current_files, new_paths, new_codes)
   j = 0
   while j < current_files.length do
-  #   puts "#{file[j]} | #{new_paths[j]} | #{new_codes[j]}"
     cur_file = current_files[j]
     next_path = new_paths[j]
     next_name = new_codes[j]
-    #modify_files(cur_file, next_path, next_name)
     if !(current_files[j].empty?)
-      #puts "#{current_files[j]} | #{new_paths[j]} | #{new_codes[j]}"
       FileUtils.mv(cur_file, "#{next_path}")
     end
     j += 1
